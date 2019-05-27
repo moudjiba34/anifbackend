@@ -1,0 +1,945 @@
+    {% extends "dos/index.html" %}
+    {% load i18n %}
+    {% block content %}
+   {% comment %} <p>Etape {{ wizard.steps.step1 }} / {{ wizard.steps.count }}</p>
+    <form action="" method="post">
+      {% csrf_token %}
+      <table>
+      {{ wizard.management_form }}
+      {% if wizard.form.forms %}
+        {{ wizard.form.management_form }}
+        {% for form in wizard.form.forms %}
+          {{ form }}
+        {% endfor %}
+      {% else %}
+        {{ wizard.form }}
+      {% endif %}
+      </table>
+      {% if wizard.steps.prev %}
+      <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">{% trans "Precedent" %}</button>
+      <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Suivant" %}</button>
+      {% endif %}
+      <input type="submit" value="{% trans "Valider" %}"/>
+    </form>{% endcomment %}
+
+
+        <div class="m-portlet">
+									<div class="m-portlet__head">
+										<div class="m-portlet__head-caption">
+											<div class="m-portlet__head-title">
+												<span class="m-portlet__head-icon m--hide">
+													<i class="la la-gear"></i>
+												</span>
+												<h3 class="m-portlet__head-text" align="center">
+                                                    <strong>
+														Déclaration d’Opérations Suspectes N° /DOS/ANIF/20
+													</strong>
+
+												</h3>
+
+											</div>
+										</div>
+									</div>
+									<!--begin::Form-->
+									<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" action="{% url 'dos:ajout_dos' %}" method="POST">
+                                        {% csrf_token %}
+										<div class="m-portlet__body">
+
+                                            {% if error_message %}
+                                                <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+                                            {% endif %}
+
+                                            <div class="m-form__section m-form__section--first">
+												<div class="m-form__heading">
+													<h3 class="m-form__heading-title">
+                                                        <br>
+														<div class="m-alert m-alert--outline alert alert-info alert-dismissible fade show" role="alert">
+													        <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+
+													        Art.72 et 87 Règlement CEMAC ; cette déclaration est strictement confidentielle ; les informations qu’elle contient, ainsi que sa source sont anonymisées et soumises à la loi sur la protection des sources et données.
+												        </div>
+													</h3>
+												</div>
+
+											    <div class="form-group m-form__group row">
+                                                    <div class="col-lg-4">
+                                                        <label>
+                                                            Souhaitez-vous recevoir un accusé de réception?
+                                                        </label>
+
+                                                        <div class="m-radio-inline">
+                                                            {% for choice in form.accuse_reception %}
+                                                                <label class="m-radio m-radio--check-bold">
+                                                                    {{ choice.choice_label }}
+                                                                    <span class="select">{{ choice.tag }}</span>
+                                                                </label>
+                                                            {% endfor %}
+                                                            {% comment %}<label class="m-radio m-radio--solid">
+                                                                <input type="radio" name="example_2" value="2">
+                                                                Non
+                                                                <span></span>
+                                                            </label>{% endcomment %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <label>
+                                                            Statut de l'opération
+                                                        </label><p></p>
+
+                                                        <div class="m-radio-inline">
+                                                            {% for choice in form.statut_operation %}
+                                                                <label class="m-radio m-radio--check-bold">
+                                                                    {{ choice.choice_label }}
+                                                                    <span class="select">{{ choice.tag }}</span>
+                                                                </label>
+                                                            {% endfor %}
+                                                           {% comment %} <label class="m-radio m-radio--solid">
+                                                                <input type="radio" name="example_2" value="2">
+                                                                En cours
+                                                                <span></span>
+                                                            </label>{% endcomment %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <label>
+                                                            Cette déclaration vise-t-elle à corriger ou compléter une déclaration transmise antérieurement?
+                                                        </label>
+
+                                                        <div class="m-radio-inline">
+                                                             {% for choice in form.declaration_anterieure %}
+                                                                <label class="m-radio m-radio--check-bold">
+                                                                    {{ choice.choice_label }}
+                                                                    <span class="select">{{ choice.tag }}</span>
+                                                                </label>
+                                                            {% endfor %}
+                                                            {% comment %}<label class="m-radio m-radio--solid">
+                                                                <input type="radio" name="declaration_anterieure" value="non">
+                                                                Non
+                                                                <span></span>
+                                                            </label>{% endcomment %}
+                                                        </div>
+                                                    </div>
+
+
+											    </div>
+                                              <div class="form-group m-form__group row">
+                                                    <div class="col-lg-4">
+                                                         <label>Indiquez la date et l’heure de la déclaration initiale</label><br>
+
+                                                            <label>Date</label>
+                                                            <div class="input-group date">
+                                                                {{ form.date_declaration_initiale }}
+                                                            </div>
+                                                            <label>Heure</label>
+                                                             <div class="input-group date">
+                                                               {{ form.heure_declaration_initiale }}
+                                                            </div>
+
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                         <label>Indiquez la date et l’heure de la déclaration </label><br>
+
+                                                             <label>Date</label>
+                                                            <div class="input-group date">
+                                                                {{ form.date_declaration }}
+                                                            </div>
+                                                            <label>Heure</label>
+                                                             <div class="input-group date">
+                                                                {{ form.heure_declaration }}
+                                                            </div>
+
+                                                    </div>
+                                                     <div class="col-lg-4"></div>
+                                                    {% comment %}<div class="col-lg-4">
+                                                        <label>Indiquez la date et l’heure de la déclaration initiale</label><br>
+                                                         <div id="declaration_initiale">
+                                                             <label>Date</label>
+                                                            <div class="input-group date">
+                                                                <input type="date" class="form-control m-input" placeholder="Select date" id="m_datetimepicker_6">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">
+                                                                        <i class="la la-calendar glyphicon-th"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <label>Heure</label>
+                                                             <div class="input-group date">
+                                                                <input type="time" class="form-control m-input" placeholder="Select date" id="m_datetimepicker_6">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">
+                                                                        <i class="la la-calendar glyphicon-th"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                         </div>
+                                                        <div id="declaration">
+                                                             <label>Date de declaration</label>
+                                                            <div class="input-group date">
+                                                                <input type="date" class="form-control m-input" placeholder="Select date" id="m_datetimepicker_6">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">
+                                                                        <i class="la la-calendar glyphicon-th"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <label>Heure de declaration</label>
+                                                             <div class="input-group date">
+                                                                <input type="time" class="form-control m-input" placeholder="Select date" id="m_datetimepicker_6">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">
+                                                                        <i class="la la-calendar glyphicon-th"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                         </div>
+                                                    </div>{% endcomment %}
+
+                                                 </div>
+
+                                            </div>
+                                            <div class="m-form__seperator m-form__seperator--dashed"></div>
+
+                                            <div class="m-form__section m-form__section--first">
+												<div class="m-form__heading">
+													<h3 class="m-form__heading-title">
+                                                        <br>
+														<strong>Partie A - Renseignements sur l’établissement où l’opération a été effectuée</strong>
+													</h3>
+												</div>
+                                                <div class="form-group m-form__group row">
+												<div class="col-lg-4">
+													<label class="">
+														Nom ou Dénomination sociale de l’entité ou de la personne physique déclarante
+													</label> <br>
+                                                    {{ form.denomination_sociale }}
+													{% comment %}<input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+
+												</div>
+												<div class="col-lg-4">
+													<label class="">
+														Où l’opération a-t-elle été réalisée ? &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+                                                        &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+                                                        &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+													</label>
+													<div class="m-input-icon m-input-icon--right">
+                                                        {{ form.lieu_operation }}
+														{% comment %}<input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+
+													</div>
+
+												</div>
+												<div class="col-lg-4">
+													<label>
+														A quelle catégorie déclarante votre entité appartient- elle? (Si personne morale)
+													</label> <br>
+													<div class="m-input-icon m-input-icon--right">
+                                                        {{ form.categorie_declarante }}
+														{% comment %}<select class="form-control">
+                                                            <option value="Trésor Public">Trésor Public</option>
+                                                            <option value="Banque, établissement financier">Banque, établissement financier</option>
+                                                            <option value="Banque Centrale">Banque Centralec</option>
+                                                            <option value="Intermédiaire en opérations de banque">Intermédiaire en opérations de banque</option>
+                                                            <option value="Service financier de la Poste">Service financier de la Poste</option>
+                                                            <option value="Etablissement de micro finance">Etablissement de micro finance</option>
+                                                            <option value="Société d’assurance et de réassurance">Société d’assurance et de réassurance</option>
+                                                            <option value="Courtier d’assurance et de réassurance">Courtier d’assurance et de réassurance</option>
+                                                            <option value="Bourse des valeurs mobilières">Bourse des valeurs mobilières</option>
+                                                            <option value="rganisme assurant les fonctions de Dépositaire central ou de banque de règlement">Organisme assurant les fonctions de Dépositaire central ou de banque de règlement</option>
+                                                            <option value="Société de bourse">Société de bourse</option>
+                                                            <option value="Intermédiaire en opérations de bourse">Intermédiaire en opérations de bourse</option>
+                                                        </select>{% endcomment %}
+													</div>
+
+												</div>
+											</div>
+                                            </div>
+                                            <div class="m-form__seperator m-form__seperator--dashed"></div>
+
+                                            <div class="m-form__section m-form__section--first">
+												<div class="m-form__heading">
+													<h3 class="m-form__heading-title">
+                                                        <br>
+														<strong>PARTIE B – Renseignements sur l’opération suspectée</strong>
+													</h3>
+												</div>
+                                                <div class="form-group m-form__group row">
+												<div class="col-lg-4">
+													<label>Date de l'opération</label><p></p>
+                                                    <div class="input-group date">
+                                                              {% comment %}  <input type="date" class="form-control m-input" placeholder="Select date" id="m_datetimepicker_6">{% endcomment %}
+                                                                {{ form.date_operation }}
+                                                            </div>
+
+												</div>
+												<div class="col-lg-4">
+													<label>Heure de l'opération</label><p></p>
+                                                             <div class="input-group date">
+                                                               {% comment %} <input type="time" class="form-control m-input" placeholder="Select date" id="m_datetimepicker_6">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">
+                                                                        <i class="la la-calendar glyphicon-th"></i>
+                                                                    </span>
+                                                                </div>{% endcomment %}
+                                                                 {{ form.heure_operation }}
+                                                            </div>
+
+												</div>
+												<div class="col-lg-4">
+													<label>Date de l'inscription (si différente de celle de l'opétation)</label><p></p>
+                                                   {% comment %} <div class="input-group date">
+                                                                <input type="date" class="form-control m-input" placeholder="Select date" id="m_datetimepicker_6">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">
+                                                                        <i class="la la-calendar glyphicon-th"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>{% endcomment %}
+                                                    <div class="input-group date">
+                                                               {% comment %} <input type="time" class="form-control m-input" placeholder="Select date" id="m_datetimepicker_6">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">
+                                                                        <i class="la la-calendar glyphicon-th"></i>
+                                                                    </span>
+                                                                </div>{% endcomment %}
+                                                                 {{ form.date_inscription }}
+                                                            </div>
+
+												</div>
+											</div>
+                                                 <div class="form-group m-form__group row">
+												<div class="col-lg-4">
+													<label class="">
+														Types d’opération à l’origine de la suspicion
+													</label> <p></p>
+													<div class="m-radio-list">
+                                                                {% for choice in form.type_operation %}
+																	<label class="m-radio m-radio--check-bold">
+																		{% comment %}<input type="radio" name="example_5_1" value="Versement espèces">
+																		Versement espèces{% endcomment %}
+                                                                          {{ choice.choice_label }}
+                                                                          <span class="select">{{ choice.tag }}</span> {# Or any other type you want. #}
+																		<span></span>
+																	</label>
+                                                                {% endfor %}
+																	{% comment %}
+																	  {{ form.type_operation }}
+
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Retrait espèces">
+                                                                        Retrait espèces
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Paiement par chèque">
+																		Paiement par chèque
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Encaissement chèque">
+                                                                       Encaissement chèque
+																		<span></span>
+																	</label>
+                                                                    <label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Virement SWIFT vers l’étranger,">
+																		Virement SWIFT vers l’étranger,
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Virement Money Gram, Western Union ou autres (précisez)">
+                                                                        Virement Money Gram, Western Union ou autres (précisez)
+																		<span></span>
+																	</label>
+                                                                    <label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Virement au TCHAD">
+																		Virement au TCHAD,
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Autres">
+                                                                        Autres
+																		<span></span>
+																	</label>{% endcomment %}
+																</div>
+												</div>
+												<div class="col-lg-4">
+													<label class="">
+														Pièces et éléments ayant motivé la déclaration
+													</label><p></p>
+													<div class="m-radio-list">
+                                                        {% for choice in form.piece_declaration %}
+																	<label class="m-radio m-radio--check-bold">
+																		{% comment %}<input type="radio" name="example_5_1" value="Versement espèces">
+																		Versement espèces{% endcomment %}
+                                                                          {{ choice.choice_label }}
+                                                                          <span class="select">{{ choice.tag }}</span> {# Or any other type you want. #}
+																		<span></span>
+																	</label>
+                                                        {% endfor %}
+																	{% comment %}<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Revenus sans raison économique correspondante">
+																		Revenus sans raison économique correspondante
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Le client refuse de fournir les informations demandées">
+                                                                        Le client refuse de fournir les informations demandées
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="PPrésentation de faux documents">
+																		Présentation de faux documents
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Echange de petites coupures usagées contre des grosses coupures">
+                                                                       Echange de petites coupures usagées contre des grosses coupures
+																		<span></span>
+																	</label>
+                                                                    <label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Compte alimenté exclusivement par des transferts">
+																		Compte alimenté exclusivement par des transferts
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Le client est lésé et il refuse de porter plainte">
+                                                                        Le client est lésé et il refuse de porter plainte
+																		<span></span>
+																	</label>
+                                                                    <label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Préoccupation excessive du client sur la célérité avec laquelle les opérations seront
+exécutées">
+																		Préoccupation excessive du client sur la célérité avec laquelle les opérations seront
+exécutées
+																		<span></span>
+																	</label>
+                                                        <label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Remboursement anticipé de prêts">
+                                                                        Remboursement anticipé de prêts
+																		<span></span>
+																	</label>
+                                                                    <label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Transfert vers un paradis fiscal">
+																		Transfert vers un paradis fiscal
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Autres">
+                                                                        Autres
+																		<span></span>
+																	</label>{% endcomment %}
+																</div>
+
+												</div>
+												<div class="col-lg-4">
+													<label>
+														Type d’infraction soupçonnée
+													</label><p></p>
+
+                                                    <div class="m-radio-list">
+
+                                                        {% for choice in form.type_infraction %}
+																	<label class="m-radio m-radio--check-bold">
+																		{% comment %}<input type="radio" name="example_5_1" value="Versement espèces">
+																		Versement espèces{% endcomment %}
+                                                                          {{ choice.choice_label }}
+                                                                          <span class="select">{{ choice.tag }}</span> {# Or any other type you want. #}
+																		<span></span>
+																	</label>
+                                                        {% endfor %}
+
+																	{% comment %}<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Détournement de fonds publics">
+																		Détournement de fonds publics
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Vol">
+                                                                       Vol
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="PEscroquerie">
+																		 Escroquerie
+                                                                        <span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Fraude fiscale">
+                                                                       Fraude fiscale
+																		<span></span>
+																	</label>
+                                                                    <label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Financement du terrorisme">
+																		Financement du terrorisme
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Financement de la prolifération des armes">
+                                                                        Financement de la prolifération des armes
+																		<span></span>
+																	</label>
+
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Autres">
+                                                                        Autres
+																		<span></span>
+																	</label>{% endcomment %}
+																</div>
+												</div>
+											</div>
+                                            </div>
+                                            <div class="m-form__seperator m-form__seperator--dashed"></div>
+
+                                            <div class="m-form__section m-form__section--first">
+												<div class="m-form__heading">
+													<h3 class="m-form__heading-title">
+                                                        <br>
+														<strong>PARTIE C – Renseignements sur le compte</strong>
+													</h3>
+												</div>
+                                                <div class="form-group m-form__group row">
+												<div class="col-lg-4">
+													<label class="">
+														Nom de l’établissement financier
+													</label> <p></p>
+                                                    {{ form.nom_etablissement }}
+													{% comment %}<input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+
+												</div>
+												<div class="col-lg-4">
+													<label class="">
+														Numéro de compte
+													</label> <p></p>
+                                                    {{ form.numero_compte }}
+													{% comment %}<input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+
+												</div>
+												<div class="col-lg-4">
+													<label>Type de compte</label>
+                                                    <div class="m-radio-inline">
+
+                                                        {% for choice in form.type_compte %}
+                                                                <label class="m-radio m-radio--check-bold">
+                                                                    {{ choice.choice_label }}
+                                                                    <span class="select">{{ choice.tag }}</span>
+                                                                </label>
+                                                            {% endfor %}
+                                                            {% comment %}<label class="m-radio m-radio--solid">
+                                                                <input type="radio" name="example_2" checked="" value="Personnel">
+                                                                Personnel
+                                                                <span></span>
+                                                            </label><label class="m-radio m-radio--solid">
+                                                                <input type="radio" name="example_2" value="Commercial">
+                                                                Commercial
+                                                                <span></span>
+                                                            </label>
+                                                         <label class="m-radio m-radio--solid">
+                                                                <input type="radio" name="example_2" value="Autre">
+                                                                Autre
+                                                                <span></span>
+                                                            </label>{% endcomment %}
+                                                    </div>
+
+												</div>
+											</div>
+                                            <div class="form-group m-form__group row">
+                                                    <div class="col-lg-4">
+                                                        <label class="">
+                                                            Montant de l’opération
+                                                        </label> <p></p>
+                                                        {{ form.montant }}
+                                                        {% comment %}<input type="Number" class="form-control m-input" placeholder="">{% endcomment %}
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                         <label class="">
+                                                            Devise
+                                                        </label> <p></p>
+                                                        {{ form.devise }}
+                                                       {% comment %} <input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                         <label class="">
+                                                            Nom ou intitulé du compte
+                                                        </label> <p></p>
+                                                        {{ form.intitule_compte }}
+                                                        {% comment %}<input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+                                                    </div>
+											</div>
+
+                                              <div class="form-group m-form__group row">
+                                                    <div class="col-lg-4">
+                                                        <label class="">
+                                                            Date d’ouverture
+                                                        </label> <p></p>
+                                                         <div class="input-group date">
+                                                            {{ form.date_ouverture }}
+
+                                                         </div>
+                                                        {% comment %}<input type="date" class="form-control m-input" placeholder="">{% endcomment %}
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                         <label class="">
+                                                            Date de fermeture
+                                                        </label> <p></p>
+                                                         <div class="input-group date">
+                                                            {{ form.date_fermeture}}
+
+                                                         </div>
+                                                        {% comment %}<input type="date" class="form-control m-input" placeholder="">{% endcomment %}
+
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                         <label class="">
+                                                            Statut du compte au moment de l’opération suspecte
+                                                        </label> <p></p>
+                                                        <div class="m-radio-list">
+                                                            {% for choice in form.statut_compte %}
+																	<label class="m-radio m-radio--check-bold">
+																		{% comment %}<input type="radio" name="example_5_1" value="Versement espèces">
+																		Versement espèces{% endcomment %}
+                                                                          {{ choice.choice_label }}
+                                                                          <span class="select">{{ choice.tag }}</span> {# Or any other type you want. #}
+																		<span></span>
+																	</label>
+                                                        {% endfor %}
+																	{% comment %}<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Actif">
+																		Actif
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Inactif">
+                                                                        Inactif
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Veilleuse">
+																		Veilleuse
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Passé par perte et profit">
+                                                                       Passé par perte et profit
+																		<span></span>
+																	</label>
+
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_5_1" value="Autres">
+                                                                        Autres
+																		<span></span>
+																	</label>{% endcomment %}
+																</div>
+                                                    </div>
+											</div>
+                                            </div>
+                                            <div class="m-form__seperator m-form__seperator--dashed"></div>
+
+                                            <div class="m-form__section m-form__section--first">
+												<div class="m-form__heading">
+													<h3 class="m-form__heading-title">
+                                                        <br>
+														<strong>PARTIE D – Renseignements sur l’individu qui a effectué l’opération</strong>
+													</h3>
+												</div>
+                                                <div class="m-form__heading">
+													<h3 class="m-form__heading-title">
+                                                        <br>
+														Identification personnelle
+													</h3>
+												</div>
+
+                                                <div class="form-group m-form__group row">
+
+												<div class="col-lg-4">
+													<label class="">
+														Nom & Prenom
+													</label> <p></p>
+                                                    {{ form.nom_individu }}
+													{% comment %}<input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+
+												</div>
+												<div class="col-lg-4">
+													<label class="">
+														Date de naissance
+													</label> <p></p>
+                                                     <div class="input-group date">
+                                                              {% comment %}  <input type="date" class="form-control m-input" placeholder="Select date" id="m_datetimepicker_6">{% endcomment %}
+                                                                {{ form.date_naissance_individu }}
+                                                            </div>
+                                                     {% comment %} <input type="date" class="form-control m-input" placeholder="">{% endcomment %}
+
+												</div>
+												<div class="col-lg-4">
+													<label class="">
+														Lieu de naissance
+													</label> <p></p>
+                                                    {{ form.prenom_individu }}
+													{% comment %}<input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+
+												</div>
+											</div>
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-lg-4">
+                                                        <label class="">
+                                                            Numéro de téléphone
+                                                        </label> <p></p>
+                                                        {{ form.numero_telephone_individu }}
+                                                        {% comment %}<input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                         <label class="">
+                                                            PROFESSION ou METIER
+                                                        </label> <p></p>
+                                                        {{ form.profession_individu }}
+                                                       {% comment %} <input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                         <label class="">
+                                                           DOCUMENT D’IDENTIFICATION
+                                                        </label> <p></p>
+
+                                                          <div class="m-radio-list">
+																	{% comment %}<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_2"  value="Carte d’identité nationale">
+                                                                Carte d’identité nationale
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		 <input type="radio" name="example_2" value="Passeport">
+                                                                Passeport
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_2" value="Certificat de naissance">
+                                                                Certificat de naissance
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_2"  value="Titre de séjour">
+                                                                Titre de séjour
+																		<span></span>
+																	</label>
+                                                              <label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_2" value="Pays de citoyenneté">
+                                                                Pays de citoyenneté
+																		<span></span>
+																	</label>
+
+																	<label class="m-radio m-radio--check-bold">
+																		 <input type="radio" name="example_2" value="AUtre">
+                                                                Autre
+																		<span></span>
+																	</label>{% endcomment %}
+                                                               {% for choice in form.identification_individu %}
+																	<label class="m-radio m-radio--check-bold">
+																		{% comment %}<input type="radio" name="example_5_1" value="Versement espèces">
+																		Versement espèces{% endcomment %}
+                                                                          {{ choice.choice_label }}
+                                                                          <span class="select">{{ choice.tag }}</span> {# Or any other type you want. #}
+																		<span></span>
+																	</label>
+                                                        {% endfor %}
+																</div>
+
+                                                    </div>
+											</div>
+
+                                                 <div class="m-form__heading">
+													<h3 class="m-form__heading-title">
+                                                        <br>
+														Identification d’un tiers bénéficiaire par rapport à l’opération
+													</h3>
+												</div>
+                                                <div class="form-group m-form__group row">
+
+												<div class="col-lg-4">
+													<label class="">
+														Nom & Prenom
+													</label> <p></p>
+                                                    {{ form.nom_beneficiaire }}
+													{% comment %}<input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+
+												</div>
+												<div class="col-lg-4">
+													<label class="">
+														Date de naissance
+													</label> <p></p>
+                                                     <div class="input-group date">
+                                                              {% comment %}  <input type="date" class="form-control m-input" placeholder="Select date" id="m_datetimepicker_6">{% endcomment %}
+                                                                {{ form.date_naissance_beneficiaire }}
+                                                            </div>
+                                                     {% comment %} <input type="date" class="form-control m-input" placeholder="">{% endcomment %}
+
+												</div>
+												<div class="col-lg-4">
+													<label class="">
+														Lieu de naissance
+													</label> <p></p>
+                                                    {{ form.prenom_beneficiaire }}
+													{% comment %}<input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+
+												</div>
+											</div>
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-lg-4">
+                                                        <label class="">
+                                                            Numéro de téléphone
+                                                        </label> <p></p>
+                                                        {{ form.numero_telephone_beneficiaire}}
+                                                        {% comment %}<input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                         <label class="">
+                                                            PROFESSION ou METIER
+                                                        </label> <p></p>
+                                                        {{ form.profession_beneficiaire}}
+                                                       {% comment %} <input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                         <label class="">
+                                                           DOCUMENT D’IDENTIFICATION
+                                                        </label> <p></p>
+
+                                                          <div class="m-radio-list">
+																	{% comment %}<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_2"  value="Carte d’identité nationale">
+                                                                Carte d’identité nationale
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		 <input type="radio" name="example_2" value="Passeport">
+                                                                Passeport
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_2" value="Certificat de naissance">
+                                                                Certificat de naissance
+																		<span></span>
+																	</label>
+																	<label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_2"  value="Titre de séjour">
+                                                                Titre de séjour
+																		<span></span>
+																	</label>
+                                                              <label class="m-radio m-radio--check-bold">
+																		<input type="radio" name="example_2" value="Pays de citoyenneté">
+                                                                Pays de citoyenneté
+																		<span></span>
+																	</label>
+
+																	<label class="m-radio m-radio--check-bold">
+																		 <input type="radio" name="example_2" value="AUtre">
+                                                                Autre
+																		<span></span>
+																	</label>{% endcomment %}
+                                                               {% for choice in form.identification_beneficiaire %}
+																	<label class="m-radio m-radio--check-bold">
+																		{% comment %}<input type="radio" name="example_5_1" value="Versement espèces">
+																		Versement espèces{% endcomment %}
+                                                                          {{ choice.choice_label }}
+                                                                          <span class="select">{{ choice.tag }}</span> {# Or any other type you want. #}
+																		<span></span>
+																	</label>
+                                                        {% endfor %}
+																</div>
+
+                                                    </div>
+											</div>
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-lg-12">
+                                                        <label class="">
+                                                            Veuillez préciser la nature de la relation du tiers avec l’opération suspectée
+                                                        </label> <p></p>
+                                                       {{ form.relation }}
+                                                     {% comment %} <textarea class="form-control m-input m-input--air" id="exampleTextarea" rows="3"></textarea>{% endcomment %}
+                                                    </div>
+
+
+											    </div>
+                                            </div>
+                                            <div class="m-form__seperator m-form__seperator--dashed"></div>
+
+
+                                            <div class="m-form__section m-form__section--first">
+												<div class="m-form__heading">
+													<h3 class="m-form__heading-title">
+                                                        <br>
+														<strong>PARTIE E – Description de l’activité suspectée</strong>
+													</h3>
+												</div>
+                                                <div class="form-group m-form__group row">
+
+												<div class="col-lg-12">
+													<label>Veuillez décrire clairement les facteurs ou circonstances inhabituelles qui vous ont conduit au soupçon de blanchiment de capitaux, de financement d’activités terroristes ou de la prolifération des armes.</label>
+                                                    <div><p></p></div>
+                                                    {{ form.description_action }}
+												   {% comment %} <textarea class="form-control m-input m-input--air" id="exampleTextarea" rows="7"></textarea>{% endcomment %}
+                                                </div>
+											</div>
+
+                                            </div>
+                                            <div class="m-form__seperator m-form__seperator--dashed"></div>
+
+
+                                            <div class="m-form__section m-form__section--first">
+												<div class="m-form__heading">
+													<h3 class="m-form__heading-title">
+                                                        <br>
+														<strong>PARTIE F – Description des mesures prises</strong>
+													</h3>
+												</div>
+                                                <div class="form-group m-form__group row">
+
+												<div class="col-lg-12">
+													<label> Veuillez décrire, s’il y a lieu, les mesures que vous avez prises ou que vous comptez prendre à la suite de la détection de l’opération ou des opérations suspectes.</label><div><p></p></div>
+												    {% comment %}<textarea class="form-control m-input m-input--air" id="exampleTextarea" rows="7"></textarea{% endcomment %}
+                                                    {{ form.description_mesure }}
+
+                                                </div>
+											</div>
+
+                                            </div>
+
+										</div>
+
+										<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+											<div class="m-form__actions m-form__actions--solid">
+												<div class="row">
+													<div class="col-lg-5"></div>
+
+														<button type="submit" class="btn btn-warning">
+															Soumette
+														</button>
+														<button type="reset" class="btn btn-secondary">
+															Annuler
+														</button>
+
+												</div>
+											</div>
+										</div>
+									</form>
+									<!--end::Form-->
+								</div>
+
+    {% endblock %}
+{%  block extra_js %}
+
+    <script type="text/javascript">
+
+ $(".declaration_anterieure").change(function () {
+    //check if its checked. If checked move inside and check for others value
+    if (this.checked && this.value === "oui") {
+        //add a text box next to it
+        $("#delcaration_initiale").show()
+    }
+    if (this.checked && this.value === "non") {
+        //add a text box next to it
+        $("#delcaration").show()
+    }
+});
+
+</script>
+
+{% endblock extra_js %}
