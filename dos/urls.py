@@ -7,7 +7,7 @@ from dos.form import *
 
 app_name = 'dos'
 urlpatterns = [
-    url(r'^merci/$', views.index, name='index'),
+    url(r'^merci', views.index, name='index'),
     # path('', FormWizardView.as_view([FormStepOne, FormStepTwo])),
     #path('',FormWizardView.as_view([FormStepOne, FormStepTwo, FormStepThree, FormStepFour, FormStepFive, FormStepSix])),
     url('', views.ajout_dos, name='ajout_dos'),

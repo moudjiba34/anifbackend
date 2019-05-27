@@ -43,6 +43,15 @@
 									<!--begin::Form-->
 									<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" action="{% url 'dos:ajout_dos' %}" method="POST">
                                         {% csrf_token %}
+                                        <div class="m-form__section ">
+                                        {% if form.subject.errors %}
+                                            <ol>
+                                            {% for error in form.subject.errors %}
+                                                <li><strong>{{ error|escape }}</strong></li>
+                                            {% endfor %}
+                                            </ol>
+                                        {% endif %}
+                                        </div>
 										<div class="m-portlet__body">
 
                                             {% if error_message %}
@@ -903,6 +912,14 @@ exécutées
                                             </div>
 
 										</div>
+                                        <div class="col-lg-4">
+													<label class="">
+														Champs manquant ajouter(numero_declaration)
+													</label> <br>
+                                                    {{ form.numero_declaration }}
+													{% comment %}<input type="text" class="form-control m-input" placeholder="">{% endcomment %}
+
+												</div>
 
 										<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
 											<div class="m-form__actions m-form__actions--solid">
